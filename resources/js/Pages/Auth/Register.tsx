@@ -1,3 +1,4 @@
+import AvatarInput from '@/Components/AvatarInput';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
@@ -9,14 +10,25 @@ import { FormEventHandler } from 'react';
 export default function Register() {
     const { data, setData, post, processing, errors, reset } = useForm({
         name: '',
+        username: '',
         email: '',
         password: '',
         password_confirmation: '',
+        avatar: null as File | null,
     });
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
+        const formData = new FormData();
+        formData.append('name', data.name);
+        formData.append('username', data.username);
+        formData.append('email', data.email);
+        formData.append('password', data.password);
+        formData.append('password_confirmation', data.password_confirmation);
+        if (data.avatar) {
+            formData.append('avatar', data.avatar);
+        }
         post(route('register'), {
             onFinish: () => reset('password', 'password_confirmation'),
         });
@@ -26,8 +38,23 @@ export default function Register() {
         <GuestLayout>
             <Head title="Register" />
 
-            <form onSubmit={submit}>
+            <form onSubmit={submit} encType="multipart/form-data">
                 <div>
+                    <AvatarInput
+                        id="avatar"
+                        name="avatar"
+                        className="mt-1 block w-full"
+                        onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            setData('avatar', file || null);
+                        }}
+                        required
+                    />
+
+                    <InputError message={errors.username} className="mt-2" />
+                </div>
+
+                <div className="mt-4">
                     <InputLabel htmlFor="name" value="Name" />
 
                     <TextInput
@@ -35,13 +62,29 @@ export default function Register() {
                         name="name"
                         value={data.name}
                         className="mt-1 block w-full"
-                        autoComplete="name"
+                        autoComplete="off"
                         isFocused={true}
                         onChange={(e) => setData('name', e.target.value)}
                         required
                     />
 
                     <InputError message={errors.name} className="mt-2" />
+                </div>
+
+                <div className="mt-4">
+                    <InputLabel htmlFor="username" value="Username" />
+
+                    <TextInput
+                        id="username"
+                        name="username"
+                        value={data.username}
+                        className="mt-1 block w-full"
+                        autoComplete="off"
+                        onChange={(e) => setData('username', e.target.value)}
+                        required
+                    />
+
+                    <InputError message={errors.username} className="mt-2" />
                 </div>
 
                 <div className="mt-4">
@@ -53,7 +96,7 @@ export default function Register() {
                         name="email"
                         value={data.email}
                         className="mt-1 block w-full"
-                        autoComplete="username"
+                        autoComplete="off"
                         onChange={(e) => setData('email', e.target.value)}
                         required
                     />
@@ -70,7 +113,7 @@ export default function Register() {
                         name="password"
                         value={data.password}
                         className="mt-1 block w-full"
-                        autoComplete="new-password"
+                        autoComplete="off"
                         onChange={(e) => setData('password', e.target.value)}
                         required
                     />
@@ -90,7 +133,7 @@ export default function Register() {
                         name="password_confirmation"
                         value={data.password_confirmation}
                         className="mt-1 block w-full"
-                        autoComplete="new-password"
+                        autoComplete="off"
                         onChange={(e) =>
                             setData('password_confirmation', e.target.value)
                         }
