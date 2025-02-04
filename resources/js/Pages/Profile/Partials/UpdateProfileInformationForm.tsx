@@ -1,9 +1,11 @@
+import AvatarInput from '@/Components/AvatarInput';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
+import { Button } from '@/Components/ui/button';
+import { User } from '@/types';
 import { Transition } from '@headlessui/react';
-import { Link, useForm, usePage } from '@inertiajs/react';
+import { Link, router, useForm, usePage } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
 
 export default function UpdateProfileInformation({
@@ -15,63 +17,117 @@ export default function UpdateProfileInformation({
     status?: string;
     className?: string;
 }) {
-    const user = usePage().props.auth.user;
+    const user = usePage().props.auth.user as User;
 
-    const { data, setData, patch, errors, processing, recentlySuccessful } =
-        useForm({
-            name: user.name,
-            email: user.email,
-        });
+    const {
+        data,
+        setData,
+        post,
+        patch,
+        put,
+        errors,
+        processing,
+        recentlySuccessful,
+    } = useForm({
+        name: user.name,
+        username: user.username,
+        email: user.email,
+        avatar: null as File | null,
+    });
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        patch(route('profile.update'));
+        router.post(route('profile.update'), {
+            _method: 'patch',
+            ...data,
+        });
     };
 
     return (
         <section className={className}>
             <header>
-                <h2 className="text-lg font-medium text-gray-900">
+                <h2 className="text-secondary text-lg font-medium">
                     Profile Information
                 </h2>
 
-                <p className="mt-1 text-sm text-gray-600">
+                <p className="text-secondary mt-1 text-sm">
                     Update your account's profile information and email address.
                 </p>
             </header>
 
-            <form onSubmit={submit} className="mt-6 space-y-6">
+            <form
+                onSubmit={submit}
+                encType="multipart/form-data"
+                className="mt-6 w-full space-y-6"
+            >
                 <div>
-                    <InputLabel htmlFor="name" value="Name" />
-
-                    <TextInput
-                        id="name"
+                    <AvatarInput
+                        id="avatar"
+                        name="avatar"
                         className="mt-1 block w-full"
-                        value={data.name}
-                        onChange={(e) => setData('name', e.target.value)}
-                        required
-                        isFocused
-                        autoComplete="name"
+                        defaultValue={user.avatar}
+                        onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            setData('avatar', file || null);
+                        }}
                     />
 
-                    <InputError className="mt-2" message={errors.name} />
+                    <InputError className="mt-2" message={errors.avatar} />
                 </div>
+                <div className="grid grid-cols-2 gap-8">
+                    <div>
+                        <InputLabel htmlFor="name" value="Name" />
 
-                <div>
-                    <InputLabel htmlFor="email" value="Email" />
+                        <TextInput
+                            id="name"
+                            className="mt-1 block w-full"
+                            value={data.name}
+                            onChange={(e) => setData('name', e.target.value)}
+                            required
+                            isFocused
+                            autoComplete="off"
+                        />
 
-                    <TextInput
-                        id="email"
-                        type="email"
-                        className="mt-1 block w-full"
-                        value={data.email}
-                        onChange={(e) => setData('email', e.target.value)}
-                        required
-                        autoComplete="username"
-                    />
+                        <InputError className="mt-2" message={errors.name} />
+                    </div>
 
-                    <InputError className="mt-2" message={errors.email} />
+                    <div>
+                        <InputLabel htmlFor="username" value="Username" />
+
+                        <TextInput
+                            id="username"
+                            className="mt-1 block w-full"
+                            value={data.username}
+                            onChange={(e) =>
+                                setData('username', e.target.value)
+                            }
+                            required
+                            isFocused
+                            autoComplete="off"
+                        />
+
+                        <InputError
+                            className="mt-2"
+                            message={errors.username}
+                        />
+                    </div>
+
+                    <div>
+                        <InputLabel htmlFor="email" value="Email" />
+
+                        <TextInput
+                            id="email"
+                            type="email"
+                            className="mt-1 block w-full"
+                            value={data.email}
+                            onChange={(e) => setData('email', e.target.value)}
+                            required
+                            autoComplete="off"
+                        />
+
+                        <InputError className="mt-2" message={errors.email} />
+                    </div>
                 </div>
 
                 {mustVerifyEmail && user.email_verified_at === null && (
@@ -98,7 +154,9 @@ export default function UpdateProfileInformation({
                 )}
 
                 <div className="flex items-center gap-4">
-                    <PrimaryButton disabled={processing}>Save</PrimaryButton>
+                    <Button disabled={processing} variant="secondary">
+                        Save
+                    </Button>
 
                     <Transition
                         show={recentlySuccessful}
@@ -107,9 +165,7 @@ export default function UpdateProfileInformation({
                         leave="transition ease-in-out"
                         leaveTo="opacity-0"
                     >
-                        <p className="text-sm text-gray-600">
-                            Saved.
-                        </p>
+                        <p className="text-secondary text-sm">Saved.</p>
                     </Transition>
                 </div>
             </form>

@@ -1,8 +1,9 @@
 import Checkbox from '@/Components/Checkbox';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
+import { Button } from '@/Components/ui/button';
+import { Separator } from '@/Components/ui/separator';
 import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
@@ -38,7 +39,13 @@ export default function Login({
                 </div>
             )}
 
-            <form onSubmit={submit}>
+            <div className="space-y-4">
+                <h4 className="text-secondary text-center text-xl uppercase">
+                    Log in
+                </h4>
+                <Separator />
+            </div>
+            <form onSubmit={submit} className="mt-6">
                 <div>
                     <InputLabel htmlFor="email" value="Email" />
 
@@ -84,25 +91,34 @@ export default function Login({
                                 )
                             }
                         />
-                        <span className="ms-2 text-sm text-gray-600">
+                        <span className="text-secondary ms-2 text-sm">
                             Remember me
                         </span>
                     </label>
                 </div>
 
-                <div className="mt-4 flex items-center justify-end">
+                <div className="mt-4">
+                    <Button variant="secondary" className="w-full">
+                        LOG IN
+                    </Button>
+                </div>
+
+                <div className="mt-4 flex items-center justify-between">
                     {canResetPassword && (
                         <Link
                             href={route('password.request')}
-                            className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                            className="text-secondary focus:ring-secondary hover:text-secondary rounded-md text-sm underline focus:outline-none focus:ring-0 focus:ring-offset-0"
                         >
                             Forgot your password?
                         </Link>
                     )}
-
-                    <PrimaryButton className="ms-4" disabled={processing}>
-                        Log in
-                    </PrimaryButton>
+                    <span className="text-secondary">OR</span>
+                    <Link
+                        href={route('register')}
+                        className="text-secondary text-sm underline"
+                    >
+                        Create new account?
+                    </Link>
                 </div>
             </form>
         </GuestLayout>

@@ -1,8 +1,9 @@
 import AvatarInput from '@/Components/AvatarInput';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
+import { Button } from '@/Components/ui/button';
+import { Separator } from '@/Components/ui/separator';
 import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
@@ -37,53 +38,78 @@ export default function Register() {
     return (
         <GuestLayout>
             <Head title="Register" />
+            <div className="space-y-4">
+                <h4 className="text-secondary text-center text-xl uppercase">
+                    sign up
+                </h4>
+                <Separator />
+            </div>
+            <form
+                onSubmit={submit}
+                encType="multipart/form-data"
+                className="mt-6"
+            >
+                <div className="flex flex-row-reverse gap-8">
+                    <div>
+                        <AvatarInput
+                            id="avatar"
+                            name="avatar"
+                            className="mt-1 block w-full"
+                            onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                setData('avatar', file || null);
+                            }}
+                        />
 
-            <form onSubmit={submit} encType="multipart/form-data">
-                <div>
-                    <AvatarInput
-                        id="avatar"
-                        name="avatar"
-                        className="mt-1 block w-full"
-                        onChange={(e) => {
-                            const file = e.target.files?.[0];
-                            setData('avatar', file || null);
-                        }}
-                    />
+                        <InputError
+                            message={errors.username}
+                            className="mt-2"
+                        />
+                    </div>
+                    <div className="flex-1">
+                        <div>
+                            <InputLabel htmlFor="name" value="Name" />
 
-                    <InputError message={errors.username} className="mt-2" />
-                </div>
+                            <TextInput
+                                id="name"
+                                name="name"
+                                value={data.name}
+                                className="mt-1 block w-full"
+                                autoComplete="off"
+                                isFocused={true}
+                                onChange={(e) =>
+                                    setData('name', e.target.value)
+                                }
+                                required
+                            />
 
-                <div className="mt-4">
-                    <InputLabel htmlFor="name" value="Name" />
+                            <InputError
+                                message={errors.name}
+                                className="mt-2"
+                            />
+                        </div>
 
-                    <TextInput
-                        id="name"
-                        name="name"
-                        value={data.name}
-                        className="mt-1 block w-full"
-                        autoComplete="off"
-                        isFocused={true}
-                        onChange={(e) => setData('name', e.target.value)}
-                        required
-                    />
+                        <div className="mt-4">
+                            <InputLabel htmlFor="username" value="Username" />
 
-                    <InputError message={errors.name} className="mt-2" />
-                </div>
+                            <TextInput
+                                id="username"
+                                name="username"
+                                value={data.username}
+                                className="mt-1 block w-full"
+                                autoComplete="off"
+                                onChange={(e) =>
+                                    setData('username', e.target.value)
+                                }
+                                required
+                            />
 
-                <div className="mt-4">
-                    <InputLabel htmlFor="username" value="Username" />
-
-                    <TextInput
-                        id="username"
-                        name="username"
-                        value={data.username}
-                        className="mt-1 block w-full"
-                        autoComplete="off"
-                        onChange={(e) => setData('username', e.target.value)}
-                        required
-                    />
-
-                    <InputError message={errors.username} className="mt-2" />
+                            <InputError
+                                message={errors.username}
+                                className="mt-2"
+                            />
+                        </div>
+                    </div>
                 </div>
 
                 <div className="mt-4">
@@ -145,17 +171,19 @@ export default function Register() {
                     />
                 </div>
 
+                <div className="mt-4">
+                    <Button variant="secondary" className="w-full">
+                        REGISTER
+                    </Button>
+                </div>
+
                 <div className="mt-4 flex items-center justify-end">
                     <Link
                         href={route('login')}
-                        className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        className="text-secondary hover:text-secondary focus:ring-secondary rounded-md text-sm underline focus:outline-none focus:ring-0 focus:ring-offset-0"
                     >
                         Already registered?
                     </Link>
-
-                    <PrimaryButton className="ms-4" disabled={processing}>
-                        Register
-                    </PrimaryButton>
                 </div>
             </form>
         </GuestLayout>
