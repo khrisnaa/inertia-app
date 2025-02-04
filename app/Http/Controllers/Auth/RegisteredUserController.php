@@ -50,6 +50,8 @@ class RegisteredUserController extends Controller
             'avatar' => $avatarPath
         ]);
 
+        $user->assignRole('member');
+
         event(new Registered($user));
 
         Auth::login($user);

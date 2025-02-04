@@ -7,11 +7,16 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+/**
+ * @method \Illuminate\Database\Eloquent\Relations\BelongsToMany roles()
+ * @method \Illuminate\Database\Eloquent\Relations\BelongsToMany permissions()
+ */
+class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasUuids;
+    use HasRoles, HasFactory, Notifiable, HasUuids;
 
     /**
      * The attributes that are mass assignable.

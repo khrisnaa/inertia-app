@@ -48,7 +48,6 @@ export default function Register() {
                             const file = e.target.files?.[0];
                             setData('avatar', file || null);
                         }}
-                        required
                     />
 
                     <InputError message={errors.username} className="mt-2" />
