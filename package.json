@@ -9,7 +9,8 @@
     "devDependencies": {
         "@headlessui/react": "^2.0.0",
         "@inertiajs/react": "^2.0.0",
-        "@tailwindcss/forms": "^0.5.3",
+        "@tailwindcss/forms": "^0.5.10",
+        "@tailwindcss/typography": "^0.5.16",
         "@types/node": "^18.13.0",
         "@types/react": "^18.0.28",
         "@types/react-dom": "^18.0.10",
@@ -26,6 +27,7 @@
         "eslint-plugin-react-hooks": "^4.6.2",
         "laravel-vite-plugin": "^1.2.0",
         "postcss": "^8.4.31",
+        "postcss-nesting": "^13.0.1",
         "prettier": "^3.3.0",
         "prettier-plugin-organize-imports": "^4.0.0",
         "prettier-plugin-tailwindcss": "^0.6.5",
