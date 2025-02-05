@@ -43,6 +43,7 @@ class RoleAndPermissionSeeder extends Seeder
             'username' => "admin",
             'email' => 'admin@example.com',
             'password' => bcrypt('Admin123'),
+            'email_verified_at' => now()
         ]);
         $adminUser->assignRole('admin');
 
@@ -53,6 +54,7 @@ class RoleAndPermissionSeeder extends Seeder
             'username' => 'artisan_john',
             'email' => 'artisan@example.com',
             'password' => bcrypt('Artisan123'),
+            'email_verified_at' => now()
         ]);
         $artisanUser->assignRole('artisan');
 
@@ -76,6 +78,7 @@ class RoleAndPermissionSeeder extends Seeder
             'username' => 'member_jane',
             'email' => 'member@example.com',
             'password' => bcrypt('Member123'),
+            'email_verified_at' => now()
         ]);
         $memberUser->assignRole('member');
     }
