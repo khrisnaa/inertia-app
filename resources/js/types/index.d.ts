@@ -7,6 +7,11 @@ export interface Role {
     created_at: string;
     updated_at: string;
 }
+
+export interface Artisan {
+    bio: string;
+    location: string;
+}
 export interface User {
     id: number;
     name: string;
@@ -15,6 +20,7 @@ export interface User {
     avatar?: string;
     email_verified_at?: string;
     roles: Role[];
+    artisan?: Artisan;
 }
 
 export type PageProps<

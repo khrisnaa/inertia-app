@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Artisan;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -36,14 +37,43 @@ class RoleAndPermissionSeeder extends Seeder
         $artisanRole->givePermissionTo(['buy product', 'create product']);
 
         $adminRole->givePermissionTo(['create product']);
-        
+
         $adminUser = User::create([
             'name' => 'Admin',
-            'username'=> "admin",
+            'username' => "admin",
             'email' => 'admin@example.com',
             'password' => bcrypt('Admin123'),
         ]);
-
         $adminUser->assignRole('admin');
+
+        // Membuat Artisan
+        $artisanUser = User::create([
+            'id' => \Illuminate\Support\Str::uuid(),
+            'name' => 'John Doe',
+            'username' => 'artisan_john',
+            'email' => 'artisan@example.com',
+            'password' => bcrypt('Artisan123'),
+        ]);
+        $artisanUser->assignRole('artisan');
+
+        Artisan::create([
+            'id' => \Illuminate\Support\Str::uuid(),
+            'user_id' => $artisanUser->id,
+            'bio' => 'Seorang pengrajin sepatu handmade.',
+            'location' => 'Bali, Indonesia',
+            'social_links' => json_encode([
+                'instagram' => 'https://instagram.com/artisan_john',
+                'facebook' => 'https://facebook.com/artisan_john',
+            ]),
+        ]);
+
+        $memberUser = User::create([
+            'id' => \Illuminate\Support\Str::uuid(),
+            'name' => 'Jane Smith',
+            'username' => 'member_jane',
+            'email' => 'member@example.com',
+            'password' => bcrypt('Member123'),
+        ]);
+        $memberUser->assignRole('member');
     }
 }

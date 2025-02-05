@@ -18,6 +18,7 @@ export default function UpdateProfileInformation({
     className?: string;
 }) {
     const user = usePage().props.auth.user as User;
+    console.log(user);
     const role = user.roles[0].name;
 
     const { data, setData, errors, processing, recentlySuccessful } = useForm({
@@ -25,6 +26,10 @@ export default function UpdateProfileInformation({
         username: user.username,
         email: user.email,
         avatar: null as File | null,
+        ...(role == 'artisan' && {
+            bio: user.artisan?.bio || '',
+            location: user.artisan?.location || '',
+        }),
     });
 
     const submit: FormEventHandler = (e) => {
@@ -39,11 +44,11 @@ export default function UpdateProfileInformation({
     return (
         <section className={className}>
             <header>
-                <h2 className="text-secondary text-lg font-medium">
+                <h2 className="text-lg font-medium text-secondary">
                     Profile Information
                 </h2>
 
-                <p className="text-secondary mt-1 text-sm">
+                <p className="mt-1 text-sm text-secondary">
                     Update your account's profile information and email address.
                 </p>
             </header>
@@ -130,19 +135,14 @@ export default function UpdateProfileInformation({
                             <TextInput
                                 id="bio"
                                 className="mt-1 block w-full"
-                                // value={data.bio}
-                                // onChange={(e) =>
-                                //     setData('bio', e.target.value)
-                                // }
+                                value={data.bio}
+                                onChange={(e) => setData('bio', e.target.value)}
                                 required
                                 isFocused
                                 autoComplete="off"
                             />
 
-                            <InputError
-                                className="mt-2"
-                                // message={errors.bio}
-                            />
+                            <InputError className="mt-2" message={errors.bio} />
                         </div>
                         <div>
                             <InputLabel htmlFor="location" value="Location" />
@@ -150,10 +150,10 @@ export default function UpdateProfileInformation({
                             <TextInput
                                 id="location"
                                 className="mt-1 block w-full"
-                                // value={data.location}
-                                // onChange={(e) =>
-                                //     setData('location', e.target.value)
-                                // }
+                                value={data.location}
+                                onChange={(e) =>
+                                    setData('location', e.target.value)
+                                }
                                 required
                                 isFocused
                                 autoComplete="off"
@@ -161,7 +161,7 @@ export default function UpdateProfileInformation({
 
                             <InputError
                                 className="mt-2"
-                                // message={errors.location}
+                                message={errors.location}
                             />
                         </div>
                     </div>
@@ -202,7 +202,7 @@ export default function UpdateProfileInformation({
                         leave="transition ease-in-out"
                         leaveTo="opacity-0"
                     >
-                        <p className="text-secondary text-sm">Saved.</p>
+                        <p className="text-sm text-secondary">Saved.</p>
                     </Transition>
                 </div>
             </form>

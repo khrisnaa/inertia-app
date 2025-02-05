@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Artisan;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -31,29 +32,41 @@ class ProfileController extends Controller
     public function update(ProfileUpdateRequest $request)
     {
         $user = $request->user();
-    
+
         $data = $request->validated();
 
         if ($request->avatar === null) {
-        unset($data['avatar']);
+            unset($data['avatar']);
         }
 
         $user->fill($data);
 
         if ($user->isDirty('email')) {
-        $user->email_verified_at = null;
+            $user->email_verified_at = null;
         }
 
         if ($request->hasFile('avatar')) {
-        if ($user->avatar) {
-            Storage::disk('public')->delete($user->avatar);
-        }
+            if ($user->avatar) {
+                Storage::disk('public')->delete($user->avatar);
+            }
 
-        $user->avatar = $request->file('avatar')->store('avatars', 'public');
+            $user->avatar = $request->file('avatar')->store('avatars', 'public');
         }
 
         $user->save();
-       
+
+        if ($user->hasRole('artisan')) {
+            $artisanData = [
+                'bio' => $request->bio ?? null,
+                'location' => $request->location ?? null,
+            ];
+
+            Artisan::updateOrCreate(
+                ['user_id' => $user->id],
+                $artisanData
+            );
+        }
+
 
         return Redirect::route('profile.edit');
     }
@@ -79,7 +92,8 @@ class ProfileController extends Controller
         return Redirect::to('/');
     }
 
-    public function store(Request $request): RedirectResponse{
+    public function store(Request $request): RedirectResponse
+    {
         dd($request->all());
     }
 }

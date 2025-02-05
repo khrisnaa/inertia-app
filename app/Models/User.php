@@ -17,7 +17,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasRoles, HasFactory, Notifiable, HasUuids,SoftDeletes;
+    use HasRoles, HasFactory, Notifiable, HasUuids, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -55,16 +55,28 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
-    public function products() {
+    public function products()
+    {
         return $this->hasMany(Product::class);
     }
-    
-    public function orders() {
+
+    public function orders()
+    {
         return $this->hasMany(Order::class);
     }
-    
-    public function catalogs() {
+
+    public function catalogs()
+    {
         return $this->hasMany(Catalog::class);
     }
-    
+
+    public function artisan()
+    {
+        return $this->hasOne(Artisan::class, 'user_id');
+    }
+
+    public function hasRole($role)
+    {
+        return $this->roles->contains('name', $role);
+    }
 }

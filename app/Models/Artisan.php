@@ -14,7 +14,8 @@ class Artisan extends Model
     protected $fillable = ['user_id', 'bio', 'location', 'social_links'];
     protected $casts = ['social_links' => 'array'];
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 }

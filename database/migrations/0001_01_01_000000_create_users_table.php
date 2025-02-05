@@ -31,6 +31,7 @@ return new class extends Migration
             $table->string('location')->nullable();
             $table->json('social_links')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
