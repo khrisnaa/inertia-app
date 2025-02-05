@@ -11,8 +11,7 @@ class Artisan extends Model
 {
     use HasFactory, HasUuids, SoftDeletes;
 
-    protected $fillable = ['user_id', 'bio', 'location', 'social_links'];
-    protected $casts = ['social_links' => 'array'];
+    protected $fillable = ['user_id', 'bio', 'location', 'phone', 'instagram_url', 'facebook_url', 'twitter_url', 'pinterest_url'];
 
     public function user()
     {

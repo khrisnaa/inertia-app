@@ -32,6 +32,11 @@ class ProfileUpdateRequest extends FormRequest
         if ($this->user()->hasRole('artisan')) {
             $rules['bio'] = ['nullable', 'string', 'max:1000'];
             $rules['location'] = ['nullable', 'string', 'max:255'];
+            $rules['phone'] = ['nullable', 'string', 'max:20'];
+            $rules['instagram_url'] = ['nullable', 'url', 'max:255'];
+            $rules['facebook_url'] = ['nullable', 'url', 'max:255'];
+            $rules['twitter_url'] = ['nullable', 'url', 'max:255'];
+            $rules['pinterest_url'] = ['nullable', 'url', 'max:255'];
         }
 
         return $rules;

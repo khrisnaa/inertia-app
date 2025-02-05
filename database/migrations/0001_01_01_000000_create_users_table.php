@@ -29,7 +29,11 @@ return new class extends Migration
             $table->foreignUuid('user_id')->unique()->constrained()->onDelete('cascade');
             $table->text('bio')->nullable();
             $table->string('location')->nullable();
-            $table->json('social_links')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('instagram_url')->nullable();
+            $table->string('facebook_url')->nullable();
+            $table->string('twitter_url')->nullable();
+            $table->string('pinterest_url')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

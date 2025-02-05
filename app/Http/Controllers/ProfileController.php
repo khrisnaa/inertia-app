@@ -59,6 +59,11 @@ class ProfileController extends Controller
             $artisanData = [
                 'bio' => $request->bio ?? null,
                 'location' => $request->location ?? null,
+                'phone' => $request->phone ?? null,
+                'instagram_url' => $request->instagram_url ?? null,
+                'facebook_url' => $request->facebook_url ?? null,
+                'twitter_url' => $request->twitter_url ?? null,
+                'pinterest_url' => $request->pinterest_url ?? null,
             ];
 
             Artisan::updateOrCreate(

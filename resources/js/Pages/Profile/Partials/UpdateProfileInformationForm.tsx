@@ -29,6 +29,11 @@ export default function UpdateProfileInformation({
         ...(role == 'artisan' && {
             bio: user.artisan?.bio || '',
             location: user.artisan?.location || '',
+            phone: user.artisan?.phone || '',
+            instagram_url: user.artisan?.instagram_url || '',
+            facebook_url: user.artisan?.facebook_url || '',
+            twitter_url: user.artisan?.twitter_url || '',
+            pinterest_url: user.artisan?.pinterest_url || '',
         }),
     });
 
@@ -131,7 +136,6 @@ export default function UpdateProfileInformation({
                     <div className="grid grid-cols-2 gap-8">
                         <div>
                             <InputLabel htmlFor="bio" value="Bio" />
-
                             <TextInput
                                 id="bio"
                                 className="mt-1 block w-full"
@@ -141,12 +145,11 @@ export default function UpdateProfileInformation({
                                 isFocused
                                 autoComplete="off"
                             />
-
                             <InputError className="mt-2" message={errors.bio} />
                         </div>
+
                         <div>
                             <InputLabel htmlFor="location" value="Location" />
-
                             <TextInput
                                 id="location"
                                 className="mt-1 block w-full"
@@ -158,10 +161,107 @@ export default function UpdateProfileInformation({
                                 isFocused
                                 autoComplete="off"
                             />
-
                             <InputError
                                 className="mt-2"
                                 message={errors.location}
+                            />
+                        </div>
+
+                        <div>
+                            <InputLabel htmlFor="phone" value="Phone" />
+                            <TextInput
+                                id="phone"
+                                className="mt-1 block w-full"
+                                value={data.phone}
+                                onChange={(e) =>
+                                    setData('phone', e.target.value)
+                                }
+                                required
+                                autoComplete="off"
+                            />
+                            <InputError
+                                className="mt-2"
+                                message={errors.phone}
+                            />
+                        </div>
+
+                        <div>
+                            <InputLabel
+                                htmlFor="instagram_url"
+                                value="Instagram URL"
+                            />
+                            <TextInput
+                                id="instagram_url"
+                                className="mt-1 block w-full"
+                                value={data.instagram_url}
+                                onChange={(e) =>
+                                    setData('instagram_url', e.target.value)
+                                }
+                                autoComplete="off"
+                            />
+                            <InputError
+                                className="mt-2"
+                                message={errors.instagram_url}
+                            />
+                        </div>
+
+                        <div>
+                            <InputLabel
+                                htmlFor="facebook_url"
+                                value="Facebook URL"
+                            />
+                            <TextInput
+                                id="facebook_url"
+                                className="mt-1 block w-full"
+                                value={data.facebook_url}
+                                onChange={(e) =>
+                                    setData('facebook_url', e.target.value)
+                                }
+                                autoComplete="off"
+                            />
+                            <InputError
+                                className="mt-2"
+                                message={errors.facebook_url}
+                            />
+                        </div>
+
+                        <div>
+                            <InputLabel
+                                htmlFor="twitter_url"
+                                value="Twitter URL"
+                            />
+                            <TextInput
+                                id="twitter_url"
+                                className="mt-1 block w-full"
+                                value={data.twitter_url}
+                                onChange={(e) =>
+                                    setData('twitter_url', e.target.value)
+                                }
+                                autoComplete="off"
+                            />
+                            <InputError
+                                className="mt-2"
+                                message={errors.twitter_url}
+                            />
+                        </div>
+
+                        <div>
+                            <InputLabel
+                                htmlFor="pinterest_url"
+                                value="Pinterest URL"
+                            />
+                            <TextInput
+                                id="pinterest_url"
+                                className="mt-1 block w-full"
+                                value={data.pinterest_url}
+                                onChange={(e) =>
+                                    setData('pinterest_url', e.target.value)
+                                }
+                                autoComplete="off"
+                            />
+                            <InputError
+                                className="mt-2"
+                                message={errors.pinterest_url}
                             />
                         </div>
                     </div>

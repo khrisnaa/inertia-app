@@ -11,6 +11,11 @@ export interface Role {
 export interface Artisan {
     bio: string;
     location: string;
+    phone?: string;
+    instagram_url?: string;
+    facebook_url?: string;
+    twitter_url?: string;
+    pinterest_url?: string;
 }
 export interface User {
     id: number;

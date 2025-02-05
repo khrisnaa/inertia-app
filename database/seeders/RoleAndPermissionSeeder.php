@@ -59,12 +59,15 @@ class RoleAndPermissionSeeder extends Seeder
         Artisan::create([
             'id' => \Illuminate\Support\Str::uuid(),
             'user_id' => $artisanUser->id,
-            'bio' => 'Seorang pengrajin sepatu handmade.',
-            'location' => 'Bali, Indonesia',
-            'social_links' => json_encode([
-                'instagram' => 'https://instagram.com/artisan_john',
-                'facebook' => 'https://facebook.com/artisan_john',
-            ]),
+            'bio'            => 'Seorang pengrajin sepatu handmade.',
+            'location'       => 'Bali, Indonesia',
+            'phone'          => '08123456789',
+            'instagram_url'  => 'https://instagram.com/artisan_john',
+            'facebook_url'   => 'https://facebook.com/artisan_john',
+            'twitter_url'    => 'https://twitter.com/artisan_john',
+            'pinterest_url'  => 'https://pinterest.com/artisan_john',
+
+
         ]);
 
         $memberUser = User::create([
