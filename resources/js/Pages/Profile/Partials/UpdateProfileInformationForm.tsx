@@ -18,17 +18,9 @@ export default function UpdateProfileInformation({
     className?: string;
 }) {
     const user = usePage().props.auth.user as User;
+    const role = user.roles[0].name;
 
-    const {
-        data,
-        setData,
-        post,
-        patch,
-        put,
-        errors,
-        processing,
-        recentlySuccessful,
-    } = useForm({
+    const { data, setData, errors, processing, recentlySuccessful } = useForm({
         name: user.name,
         username: user.username,
         email: user.email,
@@ -129,6 +121,51 @@ export default function UpdateProfileInformation({
                         <InputError className="mt-2" message={errors.email} />
                     </div>
                 </div>
+
+                {role == 'artisan' && (
+                    <div className="grid grid-cols-2 gap-8">
+                        <div>
+                            <InputLabel htmlFor="bio" value="Bio" />
+
+                            <TextInput
+                                id="bio"
+                                className="mt-1 block w-full"
+                                // value={data.bio}
+                                // onChange={(e) =>
+                                //     setData('bio', e.target.value)
+                                // }
+                                required
+                                isFocused
+                                autoComplete="off"
+                            />
+
+                            <InputError
+                                className="mt-2"
+                                // message={errors.bio}
+                            />
+                        </div>
+                        <div>
+                            <InputLabel htmlFor="location" value="Location" />
+
+                            <TextInput
+                                id="location"
+                                className="mt-1 block w-full"
+                                // value={data.location}
+                                // onChange={(e) =>
+                                //     setData('location', e.target.value)
+                                // }
+                                required
+                                isFocused
+                                autoComplete="off"
+                            />
+
+                            <InputError
+                                className="mt-2"
+                                // message={errors.location}
+                            />
+                        </div>
+                    </div>
+                )}
 
                 {mustVerifyEmail && user.email_verified_at === null && (
                     <div>

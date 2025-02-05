@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
@@ -16,7 +17,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasRoles, HasFactory, Notifiable, HasUuids;
+    use HasRoles, HasFactory, Notifiable, HasUuids,SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -52,6 +53,18 @@ class User extends Authenticatable implements MustVerifyEmail
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function products() {
+        return $this->hasMany(Product::class);
+    }
+    
+    public function orders() {
+        return $this->hasMany(Order::class);
+    }
+    
+    public function catalogs() {
+        return $this->hasMany(Catalog::class);
     }
     
 }
